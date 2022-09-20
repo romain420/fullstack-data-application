@@ -1,13 +1,15 @@
 version: '3.4'
 
-networks:
-  default:
-    driver: bridge
+#networks:
+#  default:
+#   driver: bridge
 services:
   api:
+    depends_on:
+      - db
     build: .
-    networks:
-      - default
+#    networks:
+#      - default
     volumes:
       - ./app/:/app
     command: ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "5000", "--reload"]
@@ -19,6 +21,8 @@ services:
   db:
     image: postgres
     restart: always
+#    networks:
+#      - default
     env_file:
       - .env
     ports:
